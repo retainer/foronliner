@@ -1,6 +1,5 @@
 <?
-
-    $link = mysql_connect("localhost", "upload_files", "UF")  or die("Ошибка соединения: " . mysql_error());
+ 	$link = mysql_connect("localhost", "upload_files", "UF")  or die("Ошибка соединения: " . mysql_error());
     //print "<b>Успешное подключение</b>";
     mysql_select_db("upload_files") or die("невозможно выполнить выборку из БД");
 if (isset($_POST['email'])) 
@@ -23,7 +22,7 @@ if (isset($_POST['email']))
 if (isset($_GET['action']) AND $_GET['action']=="logout") {
   session_start();
   session_destroy();
-  header("Location: http://".$_SERVER['HTTP_HOST']."/upload.php");
+  header("Location: http://".$_SERVER['HTTP_HOST']."/list.php");
   exit;
 }
 if (isset($_REQUEST[session_name()])) session_start();
