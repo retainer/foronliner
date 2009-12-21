@@ -1,5 +1,12 @@
 <?
- 	$link = mysql_connect("localhost", "upload_files", "UF")  or die("Ошибка соединения: " . mysql_error());
+// функция проверяет является ли строка адресом e-mail
+
+function strings_isemail($string)
+{
+return preg_match('%[-\.\w]+@[-\w]+(?:\.[-\w]+)+%', $string);
+}
+ 
+ $link = mysql_connect("localhost", "upload_files", "UF")  or die("Ошибка соединения: " . mysql_error());
     //print "<b>Успешное подключение</b>";
     mysql_select_db("upload_files") or die("невозможно выполнить выборку из БД");
 if (isset($_POST['email'])) 
@@ -7,8 +14,7 @@ if (isset($_POST['email']))
   $email=@mysql_real_escape_string($_POST['email']);
   $password=@mysql_real_escape_string($_POST['password']);
   	
-  $query = "SELECT * FROM users WHERE email='$email' AND password='$password'";
-   
+  $query = "SELECT * FROM users WHERE email='$email' AND password='$password'";   
   $res = mysql_query($query) or trigger_error(mysql_error().$query);
   if ($row = mysql_fetch_assoc($res)) {
     // начнём сессию и определим некоторые переменные
@@ -22,7 +28,7 @@ if (isset($_POST['email']))
 if (isset($_GET['action']) AND $_GET['action']=="logout") {
   session_start();
   session_destroy();
-  header("Location: http://".$_SERVER['HTTP_HOST']."/list.php");
+  header("Location: http://".$_SERVER['HTTP_HOST']."/listnonregister.php");
   exit;
 }
 if (isset($_REQUEST[session_name()])) session_start();
