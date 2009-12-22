@@ -1,5 +1,5 @@
 <?
-function  reccom ($idlink, $idfile)
+function  reccom ($idlink, $idfile)  // рекурсивная функция
 {
 	$link = mysql_connect("localhost", "upload_files", "UF")  or die("Ошибка соединения: " . mysql_error());
 	$queryrec = "SELECT * FROM comments WHERE file_id=$idfile AND id=$idlink";
@@ -24,9 +24,13 @@ function  reccom ($idlink, $idfile)
 		return;
 	}
 }
-if (!isset ($_GET['file_id'])) { 
-print "не указан файл для комментирования <a href='	listnonregister.php'>вернуться</a>";
-exit; };
+
+
+if (!isset ($_GET['file_id'])) 
+{ 
+	print "не указан файл для комментирования <a href='listnonregister.php'>вернуться</a>";
+	exit; 
+};
 $fID=$_GET['file_id'];
 
 	$link = mysql_connect("localhost", "upload_files", "UF") or die("Ошибка соединения: " . mysql_error());
@@ -37,8 +41,7 @@ $fID=$_GET['file_id'];
 	{
 	$fn=$row['filename'];
 	}
-print "цитирование комментария с link_ID=";
-print $_GET['link_id'];
+
 print "
 <html xmlns=\"http://www.w3.org/1999/xhtml\">
 <head>
@@ -47,6 +50,27 @@ print "
 print "
 <style type=\"text/css\">
 <!--
+body {
+	margin-left: 0px;
+	margin-top: 0px;
+	margin-right: 0px;
+	margin-bottom: 0px;
+}
+a:link {
+	color: #000000;
+}
+a:visited {
+	color: #000000;
+}
+a:hover {
+	color: #FF0000;
+}
+a:active {
+	color: #FF0000;
+}
+body,td,th {
+	font-family: Arial, Helvetica, sans-serif;
+}
 #comment {
 	background-color: #FFFFCC;
 	border-color:#000000;
@@ -61,6 +85,14 @@ print "
 	position: relative;
 	left: 10px;
 	width:500px;
+}
+#comarea {
+	color:#000000;
+	background-color: #FFFFFF;
+	border-color: #FFFFFF;
+	position: relative;
+	left: 10px;
+	width:400px;
 }
 -->
 </style>";
@@ -85,7 +117,7 @@ while ($row = mysql_fetch_assoc($result))
 		print "<br>";
 		print $row['text'];
 		print "<br>";
-		print "<a href=comment.php?link_id=".$row['id']."&file_id=$fID>ответить</a><br></div><br>";		 
+		print "<a href=comment.php?link_id=".$row['id']."&file_id=$fID#inputform>ответить</a><br></div><br>";		 
 		 print "</div>";
 		}	
 
@@ -95,26 +127,29 @@ while ($row = mysql_fetch_assoc($result))
 		print "<br>";
 		print $row['text'];
 		print "<br>";
-		print "<a href=comment.php?link_id=".$row['id']."&file_id=$fID>ответить</a><br></div><br>";
+		print "<a href=comment.php?link_id=".$row['id']."&file_id=$fID#inputform>ответить</a><br></div><br>";
 		}
 	}
 	
 print"</table>";
 //  поле для ввода комментария:
-print "Добавить комментарий:<br>";
+print "<a href=comment.php?&file_id=$fID#inputform name=\"inputform\">Оставить мнение для файла:</a><br>";
 print "
 <form id=\"addcomment\" name=\"addcomment\" method=\"POST\" action=\"addcomment.php\">
-  <label>name
-  <input type=\"text\" name=\"nm\" id=\"nm\" />
-  </label>
+
   <p>
-    <label>comment <br>
-    <textarea name=\"comment\" id=\"comment\" cols=\"45\" rows=\"5\"></textarea>
+    <label>Комментарий к файлу:<br>";
+	
+	if (isset($_GET['link_id'])) {print "Вы отвечаете на сообщение id#";  print $_GET['link_id']."<br>";}
+	
+	print "<textarea name=\"comment\" id=\"comarea\" cols=\"45\" rows=\"5\"></textarea>
     </label>
   </p>
-  <p>
+  <p>  <label>Имя:
+  <input type=\"text\" name=\"nm\" id=\"nm\" />
+  </label>
     <label>
-    <input type=\"submit\" name=\"add\" id=\"add\" value=\"Submit\" />
+    <input type=\"submit\" name=\"add\" id=\"add\" value=\"Добавить\" />
     </label>
 	<input type=\"hidden\" name=\"file_id\" value=\"$fID\" />
 	<input type=\"hidden\" name=\"link_id\" value=\"".$_GET['link_id']." \" /></p>
