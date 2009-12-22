@@ -1,7 +1,7 @@
-<?
-function prepareforsave ($string)  // подготовим строку для корректного сохранения в БД
+п»ї<?
+function prepareforsave ($string)  // РїРѕРґРіРѕС‚РѕРІРёРј СЃС‚СЂРѕРєСѓ РґР»СЏ РєРѕСЂСЂРµРєС‚РЅРѕРіРѕ СЃРѕС…СЂР°РЅРµРЅРёСЏ РІ Р‘Р”
 {
-// требования задания не предполагают форматированный ввод комментариев
+// С‚СЂРµР±РѕРІР°РЅРёСЏ Р·Р°РґР°РЅРёСЏ РЅРµ РїСЂРµРґРїРѕР»Р°РіР°СЋС‚ С„РѕСЂРјР°С‚РёСЂРѕРІР°РЅРЅС‹Р№ РІРІРѕРґ РєРѕРјРјРµРЅС‚Р°СЂРёРµРІ
 $string = strip_tags($string);
 $string = nl2br($string);
 $string = trim($string);
@@ -12,21 +12,21 @@ return $string;
 
 if ($_POST['nm']=="")
 {
-print "имя не введено<br>";exit;
+print "РёРјСЏ РЅРµ РІРІРµРґРµРЅРѕ<br>";exit;
 }
 if ($_POST['comment']=="") 
 {
-print "текст не введен";exit;
+print "С‚РµРєСЃС‚ РЅРµ РІРІРµРґРµРЅ";exit;
 }
 if ($_POST['file_id']=="") 
 {
-print "нет привязки к файлу"; exit;
+print "РЅРµС‚ РїСЂРёРІСЏР·РєРё Рє С„Р°Р№Р»Сѓ"; exit;
 }
 if ($_POST['link_id']=="")
 {
 $_POST['link_id']="0";
 }
-// проведём подготовку строк
+// РїСЂРѕРІРµРґС‘Рј РїРѕРґРіРѕС‚РѕРІРєСѓ СЃС‚СЂРѕРє
 $nm=prepareforsave($_POST['nm']);
 $comment=prepareforsave($_POST['comment']);
 
@@ -34,22 +34,22 @@ $ip_user=$_SERVER['REMOTE_ADDR'];
 $browser_user=$_SERVER['HTTP_USER_AGENT'];
 $file_id=$_POST['file_id'];
 $link_id=$_POST['link_id'];
-// проверим, можно ли добавлять комментарии к этому файлу 
+// РїСЂРѕРІРµСЂРёРј, РјРѕР¶РЅРѕ Р»Рё РґРѕР±Р°РІР»СЏС‚СЊ РєРѕРјРјРµРЅС‚Р°СЂРёРё Рє СЌС‚РѕРјСѓ С„Р°Р№Р»Сѓ 
 
-	$link = mysql_connect("localhost", "upload_files", "UF")  or die("Ошибка соединения: " . mysql_error());
-    mysql_select_db("upload_files") or die("невозможно выполнить выборку из БД");
+	$link = mysql_connect("localhost", "upload_files", "UF")  or die("РћС€РёР±РєР° СЃРѕРµРґРёРЅРµРЅРёСЏ: " . mysql_error());
+    mysql_select_db("upload_files") or die("РЅРµРІРѕР·РјРѕР¶РЅРѕ РІС‹РїРѕР»РЅРёС‚СЊ РІС‹Р±РѕСЂРєСѓ РёР· Р‘Р”");
 	$query = "SELECT * FROM upload_files  WHERE file_id=".$_POST['file_id']; 
-    $result = mysql_query($query) or die("БД- ошибка запроса: " . mysql_error());
+    $result = mysql_query($query) or die("Р‘Р”- РѕС€РёР±РєР° Р·Р°РїСЂРѕСЃР°: " . mysql_error());
     if ($row = mysql_fetch_assoc($result))
 	{
-	 if ($row['comments_enabled']==1) // возможно добавление комментария
+	 if ($row['comments_enabled']==1) // РІРѕР·РјРѕР¶РЅРѕ РґРѕР±Р°РІР»РµРЅРёРµ РєРѕРјРјРµРЅС‚Р°СЂРёСЏ
 	 	//$query = "INSERT INTO `comments` (`name`,`text`,`IP `,`browser`, `link_id`, `file_id`) VALUES 
 		//($_POST['nm'], $_POST['comment']), $_SERVER['REMOTE_ADDR'], $_SERVER['HTTP_USER_AGENT'], $_POST['link_id'], $_POST['file_id']"; 
 		 {
 		 $query = "INSERT INTO `comments` (`name`,`text`,`IP`,`browser`,`file_id`,`link_id`) 
 		 VALUES  ('$nm', '$comment','$ip_user','$browser_user','$file_id', '$link_id')"; 	
-		$result = mysql_query($query) or die("БД- ошибка запроса: " . mysql_error());
-		// выполним возврат на страницу с комментариями в случае успешного добавления комментария
+		$result = mysql_query($query) or die("Р‘Р”- РѕС€РёР±РєР° Р·Р°РїСЂРѕСЃР°: " . mysql_error());
+		// РІС‹РїРѕР»РЅРёРј РІРѕР·РІСЂР°С‚ РЅР° СЃС‚СЂР°РЅРёС†Сѓ СЃ РєРѕРјРјРµРЅС‚Р°СЂРёСЏРјРё РІ СЃР»СѓС‡Р°Рµ СѓСЃРїРµС€РЅРѕРіРѕ РґРѕР±Р°РІР»РµРЅРёСЏ РєРѕРјРјРµРЅС‚Р°СЂРёСЏ
 		  header("Location: http://".$_SERVER['HTTP_HOST']."/comment.php?file_id=".$_POST['file_id']);
 		}
 	}
