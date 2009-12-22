@@ -1,7 +1,7 @@
 <?
 // функция проверяет является ли строка адресом e-mail
 
-function strings_isemail($string)
+function checkmail($string)
 {
 return preg_match('%[-\.\w]+@[-\w]+(?:\.[-\w]+)+%', $string);
 }
@@ -9,7 +9,7 @@ return preg_match('%[-\.\w]+@[-\w]+(?:\.[-\w]+)+%', $string);
  $link = mysql_connect("localhost", "upload_files", "UF")  or die("Ошибка соединения: " . mysql_error());
     //print "<b>Успешное подключение</b>";
     mysql_select_db("upload_files") or die("невозможно выполнить выборку из БД");
-if (isset($_POST['email'])) 
+if ((isset($_POST['email']))&(checkmail($_POST['email']))&(strlen($_POST['password'])>=8))
 {
   $email=@mysql_real_escape_string($_POST['email']);
   $password=@mysql_real_escape_string($_POST['password']);
