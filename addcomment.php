@@ -1,5 +1,12 @@
 <?
-//print_r ($_POST);
+function prepareforsave ($string)  // подготовим строку для корректного сохранения в БД
+{
+$string = trim($string);
+$string = stripslashes($string);
+return htmlspecialchars($string, ENT_QUOTES);
+}
+
+
 print $_POST['nm']."<br>";
 print $_POST['file_id']."<br>";
 print $_POST['comment'];
@@ -23,8 +30,8 @@ if ($_POST['link_id']=="")
 $_POST['link_id']="0";
 }
 // проведём подготовку строк
-$nm=$_POST['nm'];
-$comment=$_POST['comment'];
+$nm=prepareforsave($_POST['nm']);
+$comment=prepareforsave($_POST['comment']);
 $ip_user=$_SERVER['REMOTE_ADDR'];
 $browser_user=$_SERVER['HTTP_USER_AGENT'];
 $file_id=$_POST['file_id'];
