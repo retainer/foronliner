@@ -38,11 +38,10 @@ $user_id=$_SESSION['user_id'];
  
 $result = mysql_query($query) or die("БД- ошибка запроса: " . mysql_error());	 
 // вернёмся к списку файлов 
-		  header("Location: http://".$_SERVER['HTTP_HOST']."/list.php");	 
+	header("Location: http://".$_SERVER['HTTP_HOST']."/list.php");	 
    } else {
-      echo("Ошибка загрузки файла");
+      //echo("Ошибка загрузки файла");
 	  }
-	 
 	  ?>
 </body>
 </html>

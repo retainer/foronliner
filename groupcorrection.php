@@ -1,56 +1,54 @@
-<?
+п»ї<?
 require "auth.php";
 $uploads_dir = 'uploaduserfiles/';
 $uID=$_SESSION['user_id'];
-//print_r ($_POST);
-//print "<br>";
-//по соображениям безопасности будем проводить проверку для каждой цепочки 'пользователь'-'файл'.
+//РїРѕ СЃРѕРѕР±СЂР°Р¶РµРЅРёСЏРј Р±РµР·РѕРїР°СЃРЅРѕСЃС‚Рё Р±СѓРґРµРј РїСЂРѕРІРѕРґРёС‚СЊ РїСЂРѕРІРµСЂРєСѓ РґР»СЏ РєР°Р¶РґРѕР№ С†РµРїРѕС‡РєРё 'РїРѕР»СЊР·РѕРІР°С‚РµР»СЊ'-'С„Р°Р№Р»'.
 
-// определим список файлов  переданных для обработки по скрытому полю c именем hidX.
+// РѕРїСЂРµРґРµР»РёРј СЃРїРёСЃРѕРє С„Р°Р№Р»РѕРІ  РїРµСЂРµРґР°РЅРЅС‹С… РґР»СЏ РѕР±СЂР°Р±РѕС‚РєРё РїРѕ СЃРєСЂС‹С‚РѕРјСѓ РїРѕР»СЋ c РёРјРµРЅРµРј hidX.
 foreach ( $_POST as $key => $val )
 {
  $$key = $val;
- print "<br>---$key -- $val--- "; 
  if (substr($key, 0,3)=="hid")
  {
-	print substr($key, 3);
-	$currentID=substr($key, 3); // рабочий идентификатор
-	$link = mysql_connect("localhost", "upload_files", "UF")  or die("Ошибка соединения: " . mysql_error());
-    mysql_select_db("upload_files") or die("невозможно выполнить выборку из БД");
+	$currentID=substr($key, 3); // СЂР°Р±РѕС‡РёР№ РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ
+	$link = mysql_connect("localhost", "upload_files", "UF")  or die("РћС€РёР±РєР° СЃРѕРµРґРёРЅРµРЅРёСЏ: " . mysql_error());
+    mysql_select_db("upload_files") or die("РЅРµРІРѕР·РјРѕР¶РЅРѕ РІС‹РїРѕР»РЅРёС‚СЊ РІС‹Р±РѕСЂРєСѓ РёР· Р‘Р”");
 	$query = "SELECT * FROM upload_files WHERE user_id=$uID AND file_id=$currentID"; 
-    $result = mysql_query($query) or die("БД- ошибка запроса: " . mysql_error());
+    $result = mysql_query($query) or die("Р‘Р”- РѕС€РёР±РєР° Р·Р°РїСЂРѕСЃР°: " . mysql_error());
 	$row = mysql_fetch_assoc($result);
 	
-	print "<b>".$row['filename']."</b>";
-// установим булевое значение для отправки в БД
+// СѓСЃС‚Р°РЅРѕРІРёРј Р±СѓР»РµРІРѕРµ Р·РЅР°С‡РµРЅРёРµ РґР»СЏ РѕС‚РїСЂР°РІРєРё РІ Р‘Р”
 $CurComm="com$currentID";
 $Curdel="del$currentID";	
 if (!isset($$CurComm))
 {
-print " $CurComm =${$CurComm} off  $Curdel= ${$Curdel} off ";
 $CurComm=0;
 }
 else $CurComm=1;
 
 	$query = "UPDATE upload_files SET comments_enabled=$CurComm  WHERE user_id=$uID  AND file_id=$currentID";  
-    $result = mysql_query($query) or die("БД- ошибка запроса: " . mysql_error());
+    $result = mysql_query($query) or die("Р‘Р”- РѕС€РёР±РєР° Р·Р°РїСЂРѕСЃР°: " . mysql_error());
 }
-// произведём групповое удаление файлов с проверкой подлиности пользователя для каждого файла	
+// РїСЂРѕРёР·РІРµРґС‘Рј РіСЂСѓРїРїРѕРІРѕРµ СѓРґР°Р»РµРЅРёРµ С„Р°Р№Р»РѕРІ СЃ РїСЂРѕРІРµСЂРєРѕР№ РїРѕРґР»РёРЅРѕСЃС‚Рё РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ РґР»СЏ РєР°Р¶РґРѕРіРѕ С„Р°Р№Р»Р°	
 $CurDel="del$currentID";
 	if ($$CurDel=="on")
 	{
 		$fID=substr($key, 3);
 			$query = "SELECT * FROM upload_files WHERE file_id=$fID AND user_id=$uID";
-			$result = mysql_query($query) or die("БД- ошибка запроса: " . mysql_error());
+			$result = mysql_query($query) or die("Р‘Р”- РѕС€РёР±РєР° Р·Р°РїСЂРѕСЃР°: " . mysql_error());
 			
-			    if ($row = mysql_fetch_assoc($result)) // если есть выборка проведём удаление
+			    if ($row = mysql_fetch_assoc($result)) // РµСЃР»Рё РµСЃС‚СЊ РІС‹Р±РѕСЂРєР° РїСЂРѕРІРµРґС‘Рј СѓРґР°Р»РµРЅРёРµ
 				{
 				$filepath="$uploads_dir".$_SESSION['user_id']."/".$row['filename_alias'];
-				if (unlink($filepath))  print "успешно удалён файл $filepath";
+				if (!unlink($filepath)) $txerror="С„Р°Р№Р» РЅРµ СѓРґР°Р»С‘РЅ";
+				else // РЅРµ СѓРґР°Р»СЏРµРј Рё РёР· Р±Р°Р·С‹, РµСЃР»Рё РЅРµ СѓРґР°Р»РёР»Рё РёР· РґРёСЂРµРєС‚РѕСЂРёРё 
+				{
 				$query = "DELETE FROM upload_files WHERE file_id=$fID";
-				$result = mysql_query($query) or die("БД- ошибка запроса: " . mysql_error());
+				$result = mysql_query($query) or die("Р‘Р”- РѕС€РёР±РєР° Р·Р°РїСЂРѕСЃР°: " . mysql_error());
+				}
 				}
 	}
 	} 
-
+// РІРµСЂРЅС‘РјСЃСЏ Рє СЃРїРёСЃРєСѓ
+header("Location: http://".$_SERVER['HTTP_HOST']."/list.php");
 ?>

@@ -1,19 +1,22 @@
-<?
+ï»¿<?
 require "auth.php";
 $fID=$_GET['file_id'];
-$uID=$_SESSION['user_id'];
-// óäàëèòü ôàéë ìîæåò òîëüêî àâòîðèçîâàííûé âëàäåëåö ôàéëà
-	$link = mysql_connect("localhost", "upload_files", "UF")  or die("Îøèáêà ñîåäèíåíèÿ: " . mysql_error());
-    mysql_select_db("upload_files") or die("íåâîçìîæíî âûïîëíèòü âûáîðêó èç ÁÄ");
+$uID=$_SESSION['user_id'];
+
+// ÑƒÐ´Ð°Ð»Ð¸Ñ‚ÑŒ Ñ„Ð°Ð¹Ð» Ð¼Ð¾Ð¶ÐµÑ‚ Ñ‚Ð¾Ð»ÑŒÐºÐ¾ Ð°Ð²Ñ‚Ð¾Ñ€Ð¸Ð·Ð¾Ð²Ð°Ð½Ð½Ñ‹Ð¹ Ð²Ð»Ð°Ð´ÐµÐ»ÐµÑ† Ñ„Ð°Ð¹Ð»Ð°
+	$link = mysql_connect("localhost", "upload_files", "UF")  or die("ÐžÑˆÐ¸Ð±ÐºÐ° ÑÐ¾ÐµÐ´Ð¸Ð½ÐµÐ½Ð¸Ñ: " . mysql_error());
+    mysql_select_db("upload_files") or die("Ð½ÐµÐ²Ð¾Ð·Ð¼Ð¾Ð¶Ð½Ð¾ Ð²Ñ‹Ð¿Ð¾Ð»Ð½Ð¸Ñ‚ÑŒ Ð²Ñ‹Ð±Ð¾Ñ€ÐºÑƒ Ð¸Ð· Ð‘Ð”");
 	$query = "SELECT * FROM upload_files WHERE file_id=$fID AND user_id=$uID";
-    $result = mysql_query($query) or die("ÁÄ- îøèáêà çàïðîñà: " . mysql_error());
-    if ($row = mysql_fetch_assoc($result))
-	{
+    $result = mysql_query($query) or die("Ð‘Ð”- Ð¾ÑˆÐ¸Ð±ÐºÐ° Ð·Ð°Ð¿Ñ€Ð¾ÑÐ°: " . mysql_error());
+if ($row = mysql_fetch_assoc($result))
+{
 
 $uploads_dir = 'uploaduserfiles/';
 $filepath="$uploads_dir".$_SESSION['user_id']."/".$row['filename_alias'];
-if (unlink($filepath))  print "óñïåøíî óäàë¸í ôàéë $filepath";
-	$query = "DELETE FROM upload_files WHERE file_id=$fID";
-    $result = mysql_query($query) or die("ÁÄ- îøèáêà çàïðîñà: " . mysql_error());
+if (unlink($filepath))  
+	{$query = "DELETE FROM upload_files WHERE file_id=$fID";
+    $result = mysql_query($query) or die("Ð‘Ð”- Ð¾ÑˆÐ¸Ð±ÐºÐ° Ð·Ð°Ð¿Ñ€Ð¾ÑÐ°: " . mysql_error());
+	header("Location: http://".$_SERVER['HTTP_HOST']."/list.php");		
      }
+}
 ?>
