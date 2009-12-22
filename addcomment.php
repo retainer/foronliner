@@ -10,12 +10,6 @@ $string = stripslashes($string);
 return $string;
 }
 
-print $_POST['nm']."<br>";
-print $_POST['file_id']."<br>";
-print $_POST['comment'];
-print "<br>цитирование комментария с link_ID=";
-print $_POST['link_id'];
-print "<br>";
 if ($_POST['nm']=="")
 {
 print "имя не введено<br>";exit;
@@ -51,8 +45,12 @@ $link_id=$_POST['link_id'];
 	 if ($row['comments_enabled']==1) // возможно добавление комментария
 	 	//$query = "INSERT INTO `comments` (`name`,`text`,`IP `,`browser`, `link_id`, `file_id`) VALUES 
 		//($_POST['nm'], $_POST['comment']), $_SERVER['REMOTE_ADDR'], $_SERVER['HTTP_USER_AGENT'], $_POST['link_id'], $_POST['file_id']"; 
+		 {
 		 $query = "INSERT INTO `comments` (`name`,`text`,`IP`,`browser`,`file_id`,`link_id`) 
 		 VALUES  ('$nm', '$comment','$ip_user','$browser_user','$file_id', '$link_id')"; 	
 		$result = mysql_query($query) or die("БД- ошибка запроса: " . mysql_error());
+		// выполним возврат на страницу с комментариями в случае успешного добавления комментария
+		  header("Location: http://".$_SERVER['HTTP_HOST']."/comment.php?file_id=".$_POST['file_id']);
+		}
 	}
 ?>
