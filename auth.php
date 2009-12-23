@@ -1,14 +1,14 @@
 <?
-// функция проверяет является ли строка адресом e-mail
+// С„СѓРЅРєС†РёСЏ РїСЂРѕРІРµСЂСЏРµС‚ СЏРІР»СЏРµС‚СЃСЏ Р»Рё СЃС‚СЂРѕРєР° Р°РґСЂРµСЃРѕРј e-mail
 
 function checkmail($string)
 {
 return preg_match('%[-\.\w]+@[-\w]+(?:\.[-\w]+)+%', $string);
 }
  
- $link = mysql_connect("localhost", "upload_files", "UF")  or die("Ошибка соединения: " . mysql_error());
-    //print "<b>Успешное подключение</b>";
-    mysql_select_db("upload_files") or die("невозможно выполнить выборку из БД");
+ $link = mysql_connect("localhost", "upload_files", "UF")  or die("РћС€РёР±РєР° СЃРѕРµРґРёРЅРµРЅРёСЏ: " . mysql_error());
+    //print "<b>РЈСЃРїРµС€РЅРѕРµ РїРѕРґРєР»СЋС‡РµРЅРёРµ</b>";
+    mysql_select_db("upload_files") or die("РЅРµРІРѕР·РјРѕР¶РЅРѕ РІС‹РїРѕР»РЅРёС‚СЊ РІС‹Р±РѕСЂРєСѓ РёР· Р‘Р”");
 if ((isset($_POST['email']))&(checkmail($_POST['email']))&(strlen($_POST['password'])>=8))
 {
   $email=@mysql_real_escape_string($_POST['email']);
@@ -17,7 +17,7 @@ if ((isset($_POST['email']))&(checkmail($_POST['email']))&(strlen($_POST['passwo
   $query = "SELECT * FROM users WHERE email='$email' AND password='$password'";   
   $res = mysql_query($query) or trigger_error(mysql_error().$query);
   if ($row = mysql_fetch_assoc($res)) {
-    // начнём сессию и определим некоторые переменные
+    // РЅР°С‡РЅС‘Рј СЃРµСЃСЃРёСЋ Рё РѕРїСЂРµРґРµР»РёРј РЅРµРєРѕС‚РѕСЂС‹Рµ РїРµСЂРµРјРµРЅРЅС‹Рµ
 	session_start();
     $_SESSION['user_id'] = $row['user_id'];
     $_SESSION['ip'] = $_SERVER['REMOTE_ADDR'];

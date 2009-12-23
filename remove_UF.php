@@ -1,4 +1,4 @@
-﻿<?
+<?
 require "auth.php";
 $fID=$_GET['file_id'];
 $uID=$_SESSION['user_id'];
@@ -16,6 +16,7 @@ $filepath="$uploads_dir".$_SESSION['user_id']."/".$row['filename_alias'];
 if (unlink($filepath))  
 	{$query = "DELETE FROM upload_files WHERE file_id=$fID";
     $result = mysql_query($query) or die("БД- ошибка запроса: " . mysql_error());
+	// возвращаемся к списку файлов
 	header("Location: http://".$_SERVER['HTTP_HOST']."/list.php");		
      }
 }
