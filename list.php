@@ -5,13 +5,62 @@ print "
 <head>
 <meta http-equiv=\"Content-Type\" content=\"text/html\"; charset=\"utf-8\" />
 <title>Управление списком файлов авторизованного пользователя</title>
+<style type=\"text/css\">
+<!--
+body {
+	margin-left: 0px;
+	margin-top: 0px;
+	margin-right: 0px;
+	margin-bottom: 0px;
+}
+a:link {
+	color: #000000;
+}
+a:visited {
+	color: #000000;
+}
+a:hover {
+	color: #FF0000;
+}
+a:active {
+	color: #FF0000;
+}
+body,td {
+	font-family: Arial, Helvetica, sans-serif;
+}
+table 
+{
+
+padding-bottom:0px;
+width:100%;
+border:0px;
+border-color:#FFFFFF;
+
+}
+td 
+{
+background-color:#DFDFDF;
+}
+#logout {
+	position: absolute;
+	right: 13px;
+	height: 24px;
+	width: 91px;
+	top: 9px;
+	background-color: #CCFFCC;
+}
+-->
+</style>
+
+
+
 </head>
 
 <body>
 <h3>Управление списком файлов авторизованного пользователя</h3>
 <form id=\"list\" name=\"list\" method=\"POST\" action=\"groupcorrection.php\">
-<table border=1>
-<tr><td>№</td><td>ID</td><td>Имя файла</td><td>Помещён на сервер</td><td>комментарии разрешены</td><td>удалить</td></tr>";
+<table>
+<tr><td><b>№</b></td><td><b>ID</b></td><td><b>Имя файла</b></td><td><b>Помещён на сервер</b></td><td><b>комментарии разрешены</b></td><td><b>удалить</b></td></tr>";
 $rows_in_page=25;
 // первая страница будет начинаться не с нуля, а 1.
 if (!isset($_GET['page'])) {$page=1;}
@@ -44,7 +93,7 @@ if ((($page==1)&($counter<=25))|(($page>1)&($counter>($page-1)*$rows_in_page)&($
 }
 }
 print "</table>
-  <label><input type=\"submit\" name=\"runbutton\" id=\"runbutton\" value=\"Внести коррекцию\" /> </label>
+  <label><input type=\"submit\"  value=\"Внести коррекцию\" /> </label>
 </form>";
 
 
@@ -71,7 +120,9 @@ print"<div>
 </div>";
 
 
-print"<br></body>";
+print"<br>
+<div align=\"center\" class=\"logout\" id=\"logout\"><a href=list.php?action=logout><b>выход</b></a></div>
+</body>";
 print "</html>";
 
 ?>
