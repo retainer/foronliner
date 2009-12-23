@@ -4,12 +4,54 @@ print "
 <head>
 <meta http-equiv=\"Content-Type\" content=\"text/html\"; charset=\"utf-8\" />
 <title>Список файлов для неавторизованного пользователя</title>
+<style type=\"text/css\">
+<!--
+body {
+	margin-left: 0px;
+	margin-top: 0px;
+	margin-right: 0px;
+	margin-bottom: 0px;
+}
+a:link {
+	color: #000000;
+}
+a:visited {
+	color: #000000;
+}
+a:hover {
+	color: #FF0000;
+}
+a:active {
+	color: #FF0000;
+}
+body,td {
+	font-family: Arial, Helvetica, sans-serif;
+}
+table 
+{
+
+padding-bottom:0px;
+width:100%;
+border:0px;
+border-color:#FFFFFF;
+
+}
+td 
+{
+background-color:#DFDFDF;
+}
+
+-->
+</style>
+
+
+
 </head>
 
 <body>
 <h3>Список файлов для неавторизованного пользователя</h3>
-<table border=1>
-<tr><td>№</td><td>ID</td><td>Имя файла</td><td>Помещён на сервер</td><td>доступные операции</td></tr>";
+<table>
+<tr><td><b>№</b></td><td><b>ID</b></td><td><b>Имя файла</b></td><td><b>Помещён на сервер</b></td><td><b>доступные операции</b></td></tr>";
 $rows_in_page=25;
 // первая страница будет начинаться не с нуля, а 1.
 if (!isset($_GET['page'])) {$page=1;}
