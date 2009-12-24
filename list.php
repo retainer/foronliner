@@ -1,5 +1,10 @@
 <?
 require "auth.php";
+
+if (!(isset($_GET['desc'])))   //эти проверки необходимы для подготовки навигации сортировки
+	$desclink="desc";
+	else $desclink="";
+	
 print "
 <html xmlns=\"http://www.w3.org/1999/xhtml\">
 <head>
@@ -60,14 +65,14 @@ background-color:#DFDFDF;
 <h3>Управление списком файлов авторизованного пользователя</h3>
 <form id=\"list\" name=\"list\" method=\"POST\" action=\"groupcorrection.php\">
 <table>
-<tr><td><b>№</b></td><td><b>ID</b></td><td><b>Имя файла</b></td><td><b>Помещён на сервер</b></td><td><b>комментарии разрешены</b></td><td><b>удалить</b></td></tr>";
+<tr><td><b>№</b></td><td><b>ID</b></td><td><b><a href=\"list.php?sort=filename&$desclink\">Имя файла</a></b></td><td><b><a href=\"list.php?$desclink\">Помещён на сервер</b></td><td><b>комментарии разрешены</b></td><td><b>удалить</b></td></tr>";
 $rows_in_page=25;
 // первая страница будет начинаться не с нуля, а 1.
 if (!isset($_GET['page'])) {$page=1;}
 else {$page=$_GET['page'];}
 $user_id=$_SESSION['user_id'];
 // Сортировка
-if ((!isset($_GET['sort'])))
+if ((!isset($_GET['sort'])))  // если без параметров - то по дате
 	$ord="datetime";
 elseif  ($_GET['sort']=="filename") $ord="filename";
 if ((isset($_GET['desc'])))
