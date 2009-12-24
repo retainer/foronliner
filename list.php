@@ -2,9 +2,11 @@
 require "auth.php";
 
 if (!(isset($_GET['desc'])))   //эти проверки необходимы для подготовки навигации сортировки
-	$desclink="desc";
+	$desclink="&desc";
 	else $desclink="";
-	
+if ((isset($_GET['page'])))   //эти проверки необходимы для подготовки навигации сортировки
+	$pagelink="&page=".$_GET['page'];
+	else $pagelink="";	
 print "
 <html xmlns=\"http://www.w3.org/1999/xhtml\">
 <head>
@@ -65,7 +67,7 @@ background-color:#DFDFDF;
 <h3>Управление списком файлов авторизованного пользователя</h3>
 <form id=\"list\" name=\"list\" method=\"POST\" action=\"groupcorrection.php\">
 <table>
-<tr><td><b>№</b></td><td><b>ID</b></td><td><b><a href=\"list.php?sort=filename&$desclink\">Имя файла</a></b></td><td><b><a href=\"list.php?$desclink\">Помещён на сервер</b></td><td><b>комментарии разрешены</b></td><td><b>удалить</b></td></tr>";
+<tr><td><b>№</b></td><td><b>ID</b></td><td><b><a href=\"list.php?sort=filename$desclink$pagelink\">Имя файла</a></b></td><td><b><a href=\"list.php?$desclink$pagelink\">Помещён на сервер</b></td><td><b>комментарии разрешены</b></td><td><b>удалить</b></td></tr>";
 $rows_in_page=25;
 // первая страница будет начинаться не с нуля, а 1.
 if (!isset($_GET['page'])) {$page=1;}
@@ -107,14 +109,12 @@ print "</table>
 $pages=Ceil($counter/25);
 if ($pages==0) $pages=1; // исправление счётчика страниц и навигации при ситуации, когда у пользователя нет загруженых файлов
 print  "Страниц:$pages >";
-
 for ($i=1; $i<$pages+1; $i++)
 {
 if ($i==$page) print "<a href=http://foronliner.com/list.php?page=$i><b>[$i] </b></a>";
 else print "<a href=http://foronliner.com/list.php?page=$i> [$i] </a>";
 }
 print"<div>
-
    <form action=\"uploadserv.php\" method=\"post\" enctype=\"multipart/form-data\">
       <input type=\"file\" name=\"filename\"><br> 
 	   <input type=\"checkbox\" name=\"comment_enabled\" id=\"comment_enabled\" /> 
