@@ -1,8 +1,11 @@
 <?
+require_once "settings.php";
 if (!(isset($_GET['desc'])))   //эти проверки необходимы для подготовки навигации сортировки
 	$desclink="desc";
 	else $desclink="";
-	
+if ((isset($_GET['page'])))   //эти проверки необходимы для подготовки навигации сортировки
+	$pagelink="&page=".$_GET['page'];
+	else $pagelink="";		
 
 print "
 <html xmlns=\"http://www.w3.org/1999/xhtml\">
@@ -56,7 +59,7 @@ background-color:#DFDFDF;
 <body>
 <h3>Список файлов для неавторизованного пользователя</h3>
 <table>
-<tr><td><b>№</b></td><td><b>ID</b></td><td><b><a href=\"listnonregister.php?sort=filename&$desclink\">Имя файла</a></b></td><td><b><a href=\"listnonregister.php?$desclink\">Помещён на сервер</a></b></td><td><b>доступные операции</b></td></tr>";
+<tr><td><b>№</b></td><td><b>ID</b></td><td><b><a href=\"listnonregister.php?sort=filename&$desclink$pagelink\">Имя файла</a></b></td><td><b><a href=\"listnonregister.php?$desclink$pagelink\">Помещён на сервер</a></b></td><td><b>доступные операции</b></td></tr>";
 $rows_in_page=25;
 // первая страница будет начинаться не с нуля, а 1.
 if (!isset($_GET['page'])) {$page=1;}

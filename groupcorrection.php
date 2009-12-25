@@ -1,6 +1,6 @@
 <?
 require "auth.php";
-$uploads_dir = 'uploaduserfiles/';
+
 $uID=$_SESSION['user_id'];
 //по соображениям безопасности будем проводить проверку для каждой цепочки 'пользователь'-'файл'.
 
@@ -14,7 +14,7 @@ foreach ( $_POST as $key => $val )
  if (substr($key, 0,3)=="hid")
  {
 	$currentID=substr($key, 3); // рабочий идентификатор
-	$link = mysql_connect("localhost", "upload_files", "UF")  or die("Ошибка соединения: " . mysql_error());
+	$link = mysql_connect(DBHOST, DBUSER, DBPASSWD)  or die("Ошибка соединения: " . mysql_error());
     mysql_select_db("upload_files") or die("невозможно выполнить выборку из БД");
 	$query = "SELECT * FROM upload_files WHERE user_id=$uID AND file_id=$currentID"; 
     $result = mysql_query($query) or die("БД- ошибка запроса: " . mysql_error());

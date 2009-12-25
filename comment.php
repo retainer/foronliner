@@ -1,16 +1,17 @@
-п»ї<?
-function  reccom ($idlink, $idfile)  // СЂРµРєСѓСЂСЃРёРІРЅР°СЏ С„СѓРЅРєС†РёСЏ
+<?
+require_once "settings.php";
+function  reccom ($idlink, $idfile)  // рекурсивная функция
 {
-	$link = mysql_connect("localhost", "upload_files", "UF")  or die("РћС€РёР±РєР° СЃРѕРµРґРёРЅРµРЅРёСЏ: " . mysql_error());
+	$link = mysql_connect(DBHOST, DBUSER, DBPASSWD)  or die("Ошибка соединения: " . mysql_error());
 	$queryrec = "SELECT * FROM comments WHERE file_id=$idfile AND id=$idlink";
-	$resultrec = mysql_query($queryrec) or die("Р‘Р”- РѕС€РёР±РєР° Р·Р°РїСЂРѕСЃР°: " . mysql_error());
+	$resultrec = mysql_query($queryrec) or die("БД- ошибка запроса: " . mysql_error());
 	$row2 = mysql_fetch_assoc($resultrec);
 	if ($row2['link_id']!="0") 
 		{
 		 print "<div class=\"comment\" id=\"comment\">";
 		 reccom ($row2['link_id'],$row2['file_id']);
 		print $row2['name'];
-		print " РїРёСЃР°Р» ";
+		print " писал ";
 		print $row2['text'];
 		print "<br></div><br>";		 
 		}
@@ -18,7 +19,7 @@ function  reccom ($idlink, $idfile)  // СЂРµРєСѓСЂСЃРёРІРЅР°СЏ С„СѓРЅРєС†РёСЏ
 	{
 		print "<div class=\"comment\" id=\"comment\">";
 		print $row2['name'];
-		print " РїРёСЃР°Р» ";
+		print " писал ";
 		print $row2['text'];
 		print "<br></div><br>";
 		return;
@@ -28,15 +29,15 @@ function  reccom ($idlink, $idfile)  // СЂРµРєСѓСЂСЃРёРІРЅР°СЏ С„СѓРЅРєС†РёСЏ
 
 if (!isset ($_GET['file_id'])) 
 { 
-	print "РЅРµ СѓРєР°Р·Р°РЅ С„Р°Р№Р» РґР»СЏ РєРѕРјРјРµРЅС‚РёСЂРѕРІР°РЅРёСЏ <a href='listnonregister.php'>РІРµСЂРЅСѓС‚СЊСЃСЏ</a>";
+	print "не указан файл для комментирования <a href='listnonregister.php'>вернуться</a>";
 	exit; 
 };
 $fID=$_GET['file_id'];
 
-	$link = mysql_connect("localhost", "upload_files", "UF") or die("РћС€РёР±РєР° СЃРѕРµРґРёРЅРµРЅРёСЏ: " . mysql_error());
-    mysql_select_db("upload_files") or die("РЅРµРІРѕР·РјРѕР¶РЅРѕ РІС‹РїРѕР»РЅРёС‚СЊ РІС‹Р±РѕСЂРєСѓ РёР· Р‘Р”");
+	$link = mysql_connect(DBHOST, DBUSER, DBPASSWD)  or die("Ошибка соединения: " . mysql_error());
+    mysql_select_db("upload_files") or die("невозможно выполнить выборку из БД");
 	$query = "SELECT * FROM upload_files WHERE file_id=$fID";
-    $result = mysql_query($query) or die("Р‘Р”- РѕС€РёР±РєР° Р·Р°РїСЂРѕСЃР°: " . mysql_error());
+    $result = mysql_query($query) or die("БД- ошибка запроса: " . mysql_error());
     if ($row = mysql_fetch_assoc($result))
 	{
 	$fn=$row['filename'];
@@ -46,7 +47,7 @@ print "
 <html xmlns=\"http://www.w3.org/1999/xhtml\">
 <head>
 <meta http-equiv=\"Content-Type\" content=\"text/html\"; />
-<title>РљРѕРјРјРµРЅС‚Р°СЂРёРё РґР»СЏ  С„Р°Р№Р»Р° $fn:</title>";
+<title>Комментарии для  файла $fn:</title>";
 print "
 <style type=\"text/css\">
 <!--
@@ -100,24 +101,24 @@ body,td,th {
 
 print "</head>
 <body>
-<h3>РљРѕРјРјРµРЅС‚Р°СЂРёРё РґР»СЏ  С„Р°Р№Р»Р° $fn</h3>
+<h3>Комментарии для  файла $fn</h3>
 <table border=1>";
-	$link = mysql_connect("localhost", "upload_files", "UF")  or die("РћС€РёР±РєР° СЃРѕРµРґРёРЅРµРЅРёСЏ: " . mysql_error());
+	$link = mysql_connect("localhost", "upload_files", "UF")  or die("Ошибка соединения: " . mysql_error());
 	$query = "SELECT * FROM comments WHERE file_id=$fID ORDER BY id DESC";
-	$result = mysql_query($query) or die("Р‘Р”- РѕС€РёР±РєР° Р·Р°РїСЂРѕСЃР°: " . mysql_error());
+	$result = mysql_query($query) or die("БД- ошибка запроса: " . mysql_error());
 
 while ($row = mysql_fetch_assoc($result)) 
 	{
 		if ($row['link_id']!="0") 
 		{
-		// РґР°РЅРЅС‹Р№ РєРѕРјРјРµРЅС‚Р°СЂРёР№ - РѕС‚РІРµС‚ РЅР° С†РёС‚Р°С‚Сѓ СЃ id=link_id, РѕСЂРіР°РЅРёР·СѓРµРј РґСЂРµРІРѕРІРёРґРЅС‹Р№ РІС‹РІРѕРґ РєРѕРјРјРµРЅС‚Р°СЂРёРµРІ РїРѕСЃСЂРµРґСЃС‚РІРѕРј СЂРµРєСѓСЂСЃРёРё
+		// данный комментарий - ответ на цитату с id=link_id, организуем древовидный вывод комментариев посредством рекурсии
 		print "<div class=\"comment\" id=\"comment\">";
 		 reccom ($row['link_id'],$row['file_id']);
 		print $row['name'];
 		print "<br>";
 		print $row['text'];
 		print "<br>";
-		print "<a href=comment.php?link_id=".$row['id']."&file_id=$fID#inputform>РѕС‚РІРµС‚РёС‚СЊ</a><br></div><br>";		 
+		print "<a href=comment.php?link_id=".$row['id']."&file_id=$fID#inputform>ответить</a><br></div><br>";		 
 		 print "</div>";
 		}	
 
@@ -127,29 +128,29 @@ while ($row = mysql_fetch_assoc($result))
 		print "<br>";
 		print $row['text'];
 		print "<br>";
-		print "<a href=comment.php?link_id=".$row['id']."&file_id=$fID#inputform>РѕС‚РІРµС‚РёС‚СЊ</a><br></div><br>";
+		print "<a href=comment.php?link_id=".$row['id']."&file_id=$fID#inputform>ответить</a><br></div><br>";
 		}
 	}
 	
 print"</table>";
-//  РїРѕР»Рµ РґР»СЏ РІРІРѕРґР° РєРѕРјРјРµРЅС‚Р°СЂРёСЏ:
-print "<a href=comment.php?&file_id=$fID#inputform name=\"inputform\">РћСЃС‚Р°РІРёС‚СЊ РјРЅРµРЅРёРµ РґР»СЏ С„Р°Р№Р»Р°:</a><br>";
+//  поле для ввода комментария:
+print "<a href=comment.php?&file_id=$fID#inputform name=\"inputform\">Оставить мнение для файла:</a><br>";
 print "
 <form id=\"addcomment\" name=\"addcomment\" method=\"POST\" action=\"addcomment.php\">
 
   <p>
-    <label>РљРѕРјРјРµРЅС‚Р°СЂРёР№ Рє С„Р°Р№Р»Сѓ:<br>";
+    <label>Комментарий к файлу:<br>";
 	
-	if (isset($_GET['link_id'])) {print "Р’С‹ РѕС‚РІРµС‡Р°РµС‚Рµ РЅР° СЃРѕРѕР±С‰РµРЅРёРµ id#";  print $_GET['link_id']."<br>";}
+	if (isset($_GET['link_id'])) {print "Вы отвечаете на сообщение id#";  print $_GET['link_id']."<br>";}
 	
 	print "<textarea name=\"comment\" id=\"comarea\" cols=\"45\" rows=\"5\"></textarea>
     </label>
   </p>
-  <p>  <label>РРјСЏ:
+  <p>  <label>Имя:
   <input type=\"text\" name=\"nm\" id=\"nm\" />
   </label>
     <label>
-    <input type=\"submit\" name=\"add\" id=\"add\" value=\"Р”РѕР±Р°РІРёС‚СЊ\" />
+    <input type=\"submit\" name=\"add\" id=\"add\" value=\"Добавить\" />
     </label>
 	<input type=\"hidden\" name=\"file_id\" value=\"$fID\" />
 	<input type=\"hidden\" name=\"link_id\" value=\"".$_GET['link_id']." \" /></p>

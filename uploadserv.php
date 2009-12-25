@@ -1,21 +1,19 @@
 <?php
+require_once "settings.php";
 require "auth.php"; // скрипт авторизации и ведения сессий
 // определим некоторые переменные 
-$uploads_dir = 'uploaduserfiles/'; // директория для сохранения файлов
-$upload_max_filesize = 5*1024*1024; //установим ограничение на размер файла в 5 мегабайт
 $filenamealias=strtotime("now"); // псевдоним имени файла сгенерируем как UNIX timestamp
 //--------------------------------------------------------------------------------------
    if($_FILES["filename"]["size"] > $upload_max_filesize)  
    {
-     echo ("Размер файла превышает 5 мегабайт");
+     echo ("Размер файла превышает заданный");
      exit;
    }
 // в целях безопасности переименуем файл случайным образом, а настоящее имя сохраним в БД.
 // уникальная директория совпадающая с идентификатором пользователя создаётся только на этапе регистрации этого нового пользователя.
    if(move_uploaded_file($_FILES["filename"]["tmp_name"], "$uploads_dir".$_SESSION['user_id']."/$filenamealias"))
    {
-	  $link = mysql_connect("localhost", "upload_files", "UF")
-        or die("Ошибка соединения: " . mysql_error());
+	$link = mysql_connect(DBHOST, DBUSER, DBPASSWD)  or die("Ошибка соединения: " . mysql_error());
     mysql_select_db("upload_files") or die("невозможно выполнить выборку из БД");
 
 // сформируем все переменные для передачи в БД	

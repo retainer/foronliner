@@ -1,12 +1,11 @@
 <?
 // функция проверяет является ли строка адресом e-mail
-
+require_once "settings.php";
 function checkmail($string)
 {
 return preg_match('%[-\.\w]+@[-\w]+(?:\.[-\w]+)+%', $string);
 }
- 
- $link = mysql_connect("localhost", "upload_files", "UF")  or die("Ошибка соединения: " . mysql_error());
+	$link = mysql_connect(DBHOST, DBUSER, DBPASSWD)  or die("Ошибка соединения: " . mysql_error());
     //print "<b>Успешное подключение</b>";
     mysql_select_db("upload_files") or die("невозможно выполнить выборку из БД");
 if ((isset($_POST['email']))&(checkmail($_POST['email']))&(strlen($_POST['password'])>=8))
@@ -35,11 +34,37 @@ if (isset($_REQUEST[session_name()])) session_start();
 if (isset($_SESSION['user_id']) AND $_SESSION['ip'] == $_SERVER['REMOTE_ADDR']) return;
 else {
 ?>
+
+<html>
+<html>
+<head>
+<title>Log in</title>
+
+
+<style type="text/css">
+<!--
+body,td,th {
+	font-family: Arial, Helvetica, sans-serif;
+}
+table {
+	border-top-style: none;
+	border-right-style: none;
+	border-bottom-style: none;
+	border-left-style: none;
+}
+-->
+</style>
+</head>
+<body>
 <form method="POST">
-email<input type="text" name="email"><br>
-password<input type="password" name="password"><br>
-<input type="submit"><br>
+<table border=0>
+<tr><td>
+email</td><td><input type="text" name="email"></td></tr>
+<tr><td>password</td><td><input type="password" name="password"></td></tr>
+<tr><td><input type="submit"></td></tr></table>
 </form>
+</body>
+</html>
 <?
 }
 exit;

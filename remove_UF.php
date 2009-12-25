@@ -1,4 +1,5 @@
 <?
+require_once "settings.php";
 require "auth.php";
 $fID=$_GET['file_id'];
 $uID=$_SESSION['user_id'];
@@ -10,8 +11,6 @@ $uID=$_SESSION['user_id'];
     $result = mysql_query($query) or die("БД- ошибка запроса: " . mysql_error());
 if ($row = mysql_fetch_assoc($result))
 {
-
-$uploads_dir = 'uploaduserfiles/';
 $filepath="$uploads_dir".$_SESSION['user_id']."/".$row['filename_alias'];
 if (unlink($filepath))  
 	{$query = "DELETE FROM upload_files WHERE file_id=$fID";
