@@ -59,7 +59,7 @@ background-color:#DFDFDF;
 <body>
 <h3>Список файлов для неавторизованного пользователя</h3>
 <table>
-<tr><td><b>№</b></td><td><b>ID</b></td><td><b><a href=\"listnonregister.php?sort=filename&$desclink$pagelink\">Имя файла</a></b></td><td><b><a href=\"listnonregister.php?$desclink$pagelink\">Помещён на сервер</a></b></td><td><b>доступные операции</b></td></tr>";
+<tr><td width=50><b>№</b></td><td width=50><b>ID</b></td><td><b><a href=\"listnonregister.php?sort=filename&$desclink$pagelink\">Имя файла</a></b></td><td width=180><b><a href=\"listnonregister.php?$desclink$pagelink\">Помещён на сервер</a></b></td><td width=200><b>доступные операции</b></td></tr>";
 $rows_in_page=25;
 // первая страница будет начинаться не с нуля, а 1.
 if (!isset($_GET['page'])) {$page=1;}
@@ -70,7 +70,7 @@ if ((!isset($_GET['sort'])))
 elseif  ($_GET['sort']=="filename") $ord="filename";
 if ((isset($_GET['desc'])))
 	$ord="$ord DESC";
-	$link = mysql_connect("localhost", "upload_files", "UF")  or die("Ошибка соединения: " . mysql_error());
+	$link = mysql_connect(DBHOST, DBUSER, DBPASSWD)  or die("Ошибка соединения: " . mysql_error());
     mysql_select_db("upload_files") or die("невозможно выполнить выборку из БД");
 	$query = "SELECT * FROM upload_files  ORDER BY $ord";
 $result = mysql_query($query) or die("БД- ошибка запроса: " . mysql_error());
