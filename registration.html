@@ -1,0 +1,61 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1251" />
+<title>Регистрация пользователя</title>
+<style type="text/css">
+<!--
+#register {
+	background-color: #CCCCCC;
+	height: 139px;
+	position: relative;
+	width:60%;
+
+}
+body,td,th {
+	font-family: Arial, Helvetica, sans-serif;
+}
+-->
+</style>
+</head>
+
+<body>
+<div align="center">
+<h2><strong>Регистрация пользователя:</strong></h2>
+<div align="center" class="register" id="register">
+  <br>
+  <form id="form1" name="form1" method="post" action="reg.php">
+  <table width="337" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+      <td width="171"><div align="right">имя:</div></td>
+      <td width="166">
+        <label>
+        <input type="text" name="username" id="username" />
+          </label>      </td>
+    </tr>
+    <tr>
+      <td><div align="right">email</div></td>
+      <td><input type="text" name="mail" id="mail" /></td>
+    </tr>
+    <tr>
+      <td><div align="right">пароль:</div></td>
+      <td><label>
+        <input type="password" name="pass1" id="pass1" />
+      </label></td>
+    </tr>
+    <tr>
+      <td><div align="right">повторите пароль:</div></td>
+      <td><input type="password" name="pass2" id="pass2" /></td>
+    </tr>
+    <tr>
+      <td>&nbsp;</td>
+      <td><input type="submit" name="send" id="send" value="Submit" /></td>
+    </tr>
+  </table>      
+  <p>
+    <label></label>
+  </form>
+</div>
+</div>
+</body>
+</html>
