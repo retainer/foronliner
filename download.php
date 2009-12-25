@@ -1,16 +1,16 @@
 <?
-// Ðàññêîìåíòèðîâàòü, åñëè ñêà÷èâàíèå ðàçðåøåíî òîëüêî àâòîðèçîâàííûì ïîëüçîâàòåëÿì
+// Ð Ð°ÑÑÐºÐ¾Ð¼ÐµÐ½Ñ‚Ð¸Ñ€Ð¾Ð²Ð°Ñ‚ÑŒ, ÐµÑÐ»Ð¸ ÑÐºÐ°Ñ‡Ð¸Ð²Ð°Ð½Ð¸Ðµ Ñ€Ð°Ð·Ñ€ÐµÑˆÐµÐ½Ð¾ Ñ‚Ð¾Ð»ÑŒÐºÐ¾ Ð°Ð²Ñ‚Ð¾Ñ€Ð¸Ð·Ð¾Ð²Ð°Ð½Ð½Ñ‹Ð¼ Ð¿Ð¾Ð»ÑŒÐ·Ð¾Ð²Ð°Ñ‚ÐµÐ»ÑÐ¼
 //require "auth.php";
 require_once "settings.php";
 $fID=$_GET['file_id'];
-	$link = mysql_connect(DBHOST, DBUSER, DBPASSWD)  or die("Îøèáêà ñîåäèíåíèÿ: " . mysql_error());
-    mysql_select_db("upload_files") or die("íåâîçìîæíî âûïîëíèòü âûáîðêó èç ÁÄ");
+	$link = mysql_connect(DBHOST, DBUSER, DBPASSWD)  or die("ÐžÑˆÐ¸Ð±ÐºÐ° ÑÐ¾ÐµÐ´Ð¸Ð½ÐµÐ½Ð¸Ñ: " . mysql_error());
+    mysql_select_db("upload_files") or die("Ð½ÐµÐ²Ð¾Ð·Ð¼Ð¾Ð¶Ð½Ð¾ Ð²Ñ‹Ð¿Ð¾Ð»Ð½Ð¸Ñ‚ÑŒ Ð²Ñ‹Ð±Ð¾Ñ€ÐºÑƒ Ð¸Ð· Ð‘Ð”");
 	$query = "SELECT * FROM upload_files WHERE file_id=$fID";
-    $result = mysql_query($query) or die("ÁÄ- îøèáêà çàïðîñà: " . mysql_error());
+    $result = mysql_query($query) or die("Ð‘Ð”- Ð¾ÑˆÐ¸Ð±ÐºÐ° Ð·Ð°Ð¿Ñ€Ð¾ÑÐ°: " . mysql_error());
     if ($row = mysql_fetch_assoc($result))
 	{
-//  ñãåíåðèðóåì íàñòîÿùèé ïóòü ê ôàéëó è ïðåäëîæèì åãî ïîëüçîâàòåëþ
-// $filepath="$uploads_dir".$_SESSION['user_id']."/".$row['filename_alias'];  //Ðàññêîìåíòèðîâàòü, åñëè ñêà÷èâàíèå ðàçðåøåíî òîëüêî àâòîðèçîâàííûì ïîëüçîâàòåëÿì
+//  ÑÐ³ÐµÐ½ÐµÑ€Ð¸Ñ€ÑƒÐµÐ¼ Ð½Ð°ÑÑ‚Ð¾ÑÑ‰Ð¸Ð¹ Ð¿ÑƒÑ‚ÑŒ Ðº Ñ„Ð°Ð¹Ð»Ñƒ Ð¸ Ð¿Ñ€ÐµÐ´Ð»Ð¾Ð¶Ð¸Ð¼ ÐµÐ³Ð¾ Ð¿Ð¾Ð»ÑŒÐ·Ð¾Ð²Ð°Ñ‚ÐµÐ»ÑŽ
+// $filepath="$uploads_dir".$_SESSION['user_id']."/".$row['filename_alias'];  //Ð Ð°ÑÑÐºÐ¾Ð¼ÐµÐ½Ñ‚Ð¸Ñ€Ð¾Ð²Ð°Ñ‚ÑŒ, ÐµÑÐ»Ð¸ ÑÐºÐ°Ñ‡Ð¸Ð²Ð°Ð½Ð¸Ðµ Ñ€Ð°Ð·Ñ€ÐµÑˆÐµÐ½Ð¾ Ñ‚Ð¾Ð»ÑŒÐºÐ¾ Ð°Ð²Ñ‚Ð¾Ñ€Ð¸Ð·Ð¾Ð²Ð°Ð½Ð½Ñ‹Ð¼ Ð¿Ð¾Ð»ÑŒÐ·Ð¾Ð²Ð°Ñ‚ÐµÐ»ÑÐ¼
 $user_id=$row['user_id']; 
 $filepath="$uploads_dir$user_id/".$row['filename_alias'];
 header("Content-Type: ".$row['filetype']);
