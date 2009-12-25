@@ -46,6 +46,9 @@ for ($i=0; $i<sizeof($query); $i++)
 {
 $result = mysql_query($query[$i]) or die(print "БД- ошибка запроса: " . mysql_error()); 
 }
+if (!mkdir ("$uploads_dir")) {print "директория $uploads_dir не создана. Проверьте  права доступа и настройки вашего сервера"; exit;}
+
+
 print "1.Удалите install.php из рабочей директории<br>
 Регистрация нового пользователя: <a href='registration.html'>registration.html</a><br>
 Перейти к списку файлов: <a href='listnonregister.php'>listnonregister.php</a><br>
