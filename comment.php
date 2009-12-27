@@ -1,4 +1,4 @@
-<?
+﻿<?
 require_once "settings.php";
 function  reccom ($idlink, $idfile)  // рекурсивная функция
 {
@@ -29,13 +29,13 @@ function  reccom ($idlink, $idfile)  // рекурсивная функция
 
 if (!isset ($_GET['file_id'])) 
 { 
-	print "не указан файл для комментирования <a href='listnonregister.php'>вернуться</a>";
+	print "не указан файл для комментирования <a href='/foronliner/listnonregister.php'>вернуться</a>";
 	exit; 
 };
 $fID=$_GET['file_id'];
 
 	$link = mysql_connect(DBHOST, DBUSER, DBPASSWD)  or die("Ошибка соединения: " . mysql_error());
-    mysql_select_db("upload_files") or die("невозможно выполнить выборку из БД");
+    mysql_select_db("$DBNAME") or die("невозможно выполнить выборку из БД");
 	$query = "SELECT * FROM upload_files WHERE file_id=$fID";
     $result = mysql_query($query) or die("БД- ошибка запроса: " . mysql_error());
     if ($row = mysql_fetch_assoc($result))
@@ -46,7 +46,7 @@ $fID=$_GET['file_id'];
 print "
 <html xmlns=\"http://www.w3.org/1999/xhtml\">
 <head>
-<meta http-equiv=\"Content-Type\" content=\"text/html\"; />
+<meta http-equiv=\"Content-Type\" content=\"text/html\"; charset=\"utf-8\" />
 <title>Комментарии для  файла $fn:</title>";
 print "
 <style type=\"text/css\">
@@ -78,6 +78,7 @@ body,td,th {
 	border:1px;
 	border-style:dotted;
 	padding: 5px;
+	width:100%;
 }
 #comauthor {
 	color:#ffffff;
@@ -102,7 +103,7 @@ body,td,th {
 print "</head>
 <body>
 <h3>Комментарии для  файла $fn</h3>
-<table border=1>";
+<table border=1 width=100% align=center> ";
 	$link = mysql_connect(DBHOST, DBUSER, DBPASSWD)  or die("Ошибка соединения: " . mysql_error());
 	$query = "SELECT * FROM comments WHERE file_id=$fID ORDER BY id DESC";
 	$result = mysql_query($query) or die("БД- ошибка запроса: " . mysql_error());
@@ -118,7 +119,7 @@ while ($row = mysql_fetch_assoc($result))
 		print "<br>";
 		print $row['text'];
 		print "<br>";
-		print "<a href=comment.php?link_id=".$row['id']."&file_id=$fID#inputform>ответить</a><br></div><br>";		 
+		print "<a href=/foronliner/comment.php?link_id=".$row['id']."&file_id=$fID#inputform>ответить</a><br></div><br>";		 
 		 print "</div>";
 		}	
 
@@ -128,15 +129,15 @@ while ($row = mysql_fetch_assoc($result))
 		print "<br>";
 		print $row['text'];
 		print "<br>";
-		print "<a href=comment.php?link_id=".$row['id']."&file_id=$fID#inputform>ответить</a><br></div><br>";
+		print "<a href=/foronliner/comment.php?link_id=".$row['id']."&file_id=$fID#inputform>ответить</a><br></div><br>";
 		}
 	}
 	
 print"</table>";
 //  поле для ввода комментария:
-print "<a href=comment.php?&file_id=$fID#inputform name=\"inputform\">Оставить мнение для файла:</a><br>";
+print "<a href=/foronliner/comment.php?&file_id=$fID#inputform name=\"inputform\">Оставить мнение для файла:</a><br>";
 print "
-<form id=\"addcomment\" name=\"addcomment\" method=\"POST\" action=\"addcomment.php\">
+<form id=\"addcomment\" name=\"addcomment\" method=\"POST\" action=\"/foronliner/addcomment.php\">
 
   <p>
     <label>Комментарий к файлу:<br>";
@@ -155,5 +156,6 @@ print "
 	<input type=\"hidden\" name=\"file_id\" value=\"$fID\" />
 	<input type=\"hidden\" name=\"link_id\" value=\"".$_GET['link_id']." \" /></p>
 </form>
+<a href='/foronliner/listnonregister.php'>вернуться к списку файлов</a>
 ";
 ?>

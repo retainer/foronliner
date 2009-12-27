@@ -1,9 +1,9 @@
-<?
+п»ї<?
 require_once "settings.php";
-if (!(isset($_GET['desc'])))   //эти проверки необходимы для подготовки навигации сортировки
+if (!(isset($_GET['desc'])))   //СЌС‚Рё РїСЂРѕРІРµСЂРєРё РЅРµРѕР±С…РѕРґРёРјС‹ РґР»СЏ РїРѕРґРіРѕС‚РѕРІРєРё РЅР°РІРёРіР°С†РёРё СЃРѕСЂС‚РёСЂРѕРІРєРё
 	$desclink="desc";
 	else $desclink="";
-if ((isset($_GET['page'])))   //эти проверки необходимы для подготовки навигации сортировки
+if ((isset($_GET['page'])))   //СЌС‚Рё РїСЂРѕРІРµСЂРєРё РЅРµРѕР±С…РѕРґРёРјС‹ РґР»СЏ РїРѕРґРіРѕС‚РѕРІРєРё РЅР°РІРёРіР°С†РёРё СЃРѕСЂС‚РёСЂРѕРІРєРё
 	$pagelink="&page=".$_GET['page'];
 	else $pagelink="";		
 
@@ -11,7 +11,7 @@ print "
 <html xmlns=\"http://www.w3.org/1999/xhtml\">
 <head>
 <meta http-equiv=\"Content-Type\" content=\"text/html\"; charset=\"utf-8\" />
-<title>Список файлов для неавторизованного пользователя</title>
+<title>РЎРїРёСЃРѕРє С„Р°Р№Р»РѕРІ РґР»СЏ РЅРµР°РІС‚РѕСЂРёР·РѕРІР°РЅРЅРѕРіРѕ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ</title>
 <style type=\"text/css\">
 <!--
 body {
@@ -57,23 +57,23 @@ background-color:#DFDFDF;
 </head>
 
 <body>
-<h3>Список файлов для неавторизованного пользователя</h3>
+<h3>РЎРїРёСЃРѕРє С„Р°Р№Р»РѕРІ РґР»СЏ РЅРµР°РІС‚РѕСЂРёР·РѕРІР°РЅРЅРѕРіРѕ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ</h3>
 <table>
-<tr><td width=50><b>№</b></td><td width=50><b>ID</b></td><td><b><a href=\"listnonregister.php?sort=filename&$desclink$pagelink\">Имя файла</a></b></td><td width=180><b><a href=\"listnonregister.php?$desclink$pagelink\">Помещён на сервер</a></b></td><td width=200><b>доступные операции</b></td></tr>";
+<tr><td width=50><b>в„–</b></td><td width=50><b>ID</b></td><td><b><a href=\"/foronliner/listnonregister.php?sort=filename&$desclink$pagelink\">РРјСЏ С„Р°Р№Р»Р°</a></b></td><td width=180><b><a href=\"/foronliner/listnonregister.php?$desclink$pagelink\">РџРѕРјРµС‰С‘РЅ РЅР° СЃРµСЂРІРµСЂ</a></b></td><td width=200><b>РґРѕСЃС‚СѓРїРЅС‹Рµ РѕРїРµСЂР°С†РёРё</b></td></tr>";
 $rows_in_page=25;
-// первая страница будет начинаться не с нуля, а 1.
+// РїРµСЂРІР°СЏ СЃС‚СЂР°РЅРёС†Р° Р±СѓРґРµС‚ РЅР°С‡РёРЅР°С‚СЊСЃСЏ РЅРµ СЃ РЅСѓР»СЏ, Р° 1.
 if (!isset($_GET['page'])) {$page=1;}
 else {$page=$_GET['page'];}
-// Сортировка
+// РЎРѕСЂС‚РёСЂРѕРІРєР°
 if ((!isset($_GET['sort'])))
 	$ord="datetime";
 elseif  ($_GET['sort']=="filename") $ord="filename";
 if ((isset($_GET['desc'])))
 	$ord="$ord DESC";
-	$link = mysql_connect(DBHOST, DBUSER, DBPASSWD)  or die("Ошибка соединения: " . mysql_error());
-    mysql_select_db("upload_files") or die("невозможно выполнить выборку из БД");
+	$link = mysql_connect(DBHOST, DBUSER, DBPASSWD)  or die("РћС€РёР±РєР° СЃРѕРµРґРёРЅРµРЅРёСЏ: " . mysql_error());
+    mysql_select_db($DBNAME) or die("РЅРµРІРѕР·РјРѕР¶РЅРѕ РІС‹РїРѕР»РЅРёС‚СЊ РІС‹Р±РѕСЂРєСѓ РёР· Р‘Р”");
 	$query = "SELECT * FROM upload_files  ORDER BY $ord";
-$result = mysql_query($query) or die("БД- ошибка запроса: " . mysql_error());
+$result = mysql_query($query) or die("Р‘Р”- РѕС€РёР±РєР° Р·Р°РїСЂРѕСЃР°: " . mysql_error());
 $counter=0;
 while ($row = mysql_fetch_assoc($result)) {
 $counter++;
@@ -81,39 +81,36 @@ if ((($page==1)&($counter<=25))|(($page>1)&($counter>($page-1)*$rows_in_page)&($
 { 
     print "<tr><td>$counter </td>";
     print "<td>".$row['file_id']."</td>";
-    print "<td><a href=download.php?file_id=".$row['file_id'].">".$row['filename']."</a></td>";	
+    print "<td><a href=/foronliner/download.php?file_id=".$row['file_id'].">".$row['filename']."</a></td>";	
     print "<td>".$row['datetime']."</td>";
 if ($row['comments_enabled']==1) 
 {
 	//$query="SELECT COUNT(*) FROM comments WHERE file_id= ".$row['file_id']." ORDER BY id DESC";
 	$querycount = mysql_query  ("SELECT COUNT(*) FROM comments WHERE file_id= ".$row['file_id']." ORDER BY id DESC");
 	$countcomm = mysql_result ($querycount,0);	
-	$commlink="<a href=\"comment.php?file_id=".$row['file_id']."\">оставить комментарий ($countcomm)</a>";
+	$commlink="<a href=\"/foronliner/comment.php?file_id=".$row['file_id']."\">РѕСЃС‚Р°РІРёС‚СЊ РєРѕРјРјРµРЅС‚Р°СЂРёР№ ($countcomm)</a>";
 }
-else $commlink="не доступно";
+else $commlink="РЅРµ РґРѕСЃС‚СѓРїРЅРѕ";
 	print "<td>$commlink</td></tr>\r";
 }
 }
 print "</table>";
 
-// используем полученное значение $counter для подсчёта количества страниц и  организуем навигацию по списку файлов
+// РёСЃРїРѕР»СЊР·СѓРµРј РїРѕР»СѓС‡РµРЅРЅРѕРµ Р·РЅР°С‡РµРЅРёРµ $counter РґР»СЏ РїРѕРґСЃС‡С‘С‚Р° РєРѕР»РёС‡РµСЃС‚РІР° СЃС‚СЂР°РЅРёС† Рё  РѕСЂРіР°РЅРёР·СѓРµРј РЅР°РІРёРіР°С†РёСЋ РїРѕ СЃРїРёСЃРєСѓ С„Р°Р№Р»РѕРІ
 $pages=Ceil($counter/25);
-print  "Страниц:$pages >";
+print  "РЎС‚СЂР°РЅРёС†:$pages >";
 
 for ($i=1; $i<$pages+1; $i++)
 {
-if ($i==$page) print "<a href=listnonregister.php?page=$i><b>[$i] </b></a>";
-else print "<a href=listnonregister.php?page=$i> [$i] </a>";
+if ($i==$page) print "<a href=/foronliner/listnonregister.php?page=$i><b>[$i] </b></a>";
+else print "<a href=/foronliner/listnonregister.php?page=$i> [$i] </a>";
 }
-
-
-print"<br><br>Авторизуйтесь: <br>
-<form method=\"POST\" action=list.php>
+print"<br><br>РђРІС‚РѕСЂРёР·СѓР№С‚РµСЃСЊ: <br>
+<form method=\"POST\" action=/foronliner/list.php>
 email <input type=\"text\" name=\"email\"><br>
 pass: <input type=\"password\" name=\"password\"><br>
 <input type=\"submit\"><br>
 </form>
-
 <br></body>";
 print "</html>";
 

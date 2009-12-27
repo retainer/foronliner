@@ -14,7 +14,7 @@ $filenamealias=strtotime("now"); // псевдоним имени файла с�
    if(move_uploaded_file($_FILES["filename"]["tmp_name"], "$uploads_dir".$_SESSION['user_id']."/$filenamealias"))
    {
 	$link = mysql_connect(DBHOST, DBUSER, DBPASSWD)  or die("Ошибка соединения: " . mysql_error());
-    mysql_select_db("upload_files") or die("невозможно выполнить выборку из БД");
+    mysql_select_db("$DBNAME") or die("невозможно выполнить выборку из БД");
 
 // сформируем все переменные для передачи в БД	
 //--------------------------------------------------------------------------------------
@@ -35,8 +35,9 @@ $user_id=$_SESSION['user_id'];
  // для поля file_id назначено автоинрементирование, поэтому в строке запроса его указывать не нужно
  
 $result = mysql_query($query) or die("БД- ошибка запроса: " . mysql_error());	 
+
 // вернёмся к списку файлов 
-	header("Location: http://".$_SERVER['HTTP_HOST']."/list.php");	 
+header("Location: http://".$_SERVER['HTTP_HOST']."/foronliner/list.php");	 
    } else {
       //echo("Ошибка загрузки файла");
 	  }

@@ -7,7 +7,7 @@ return preg_match('%[-\.\w]+@[-\w]+(?:\.[-\w]+)+%', $string);
 }
 	$link = mysql_connect(DBHOST, DBUSER, DBPASSWD)  or die("Ошибка соединения: " . mysql_error());
     //print "<b>Успешное подключение</b>";
-    mysql_select_db("upload_files") or die("невозможно выполнить выборку из БД");
+    mysql_select_db($DBNAME) or die("невозможно выполнить выборку из БД");
 if ((isset($_POST['email']))&(checkmail($_POST['email']))&(strlen($_POST['password'])>=8))
 {
   $email=@mysql_real_escape_string($_POST['email']);
@@ -27,7 +27,7 @@ if ((isset($_POST['email']))&(checkmail($_POST['email']))&(strlen($_POST['passwo
 if (isset($_GET['action']) AND $_GET['action']=="logout") {
   session_start();
   session_destroy();
-  header("Location: http://".$_SERVER['HTTP_HOST']."/listnonregister.php");
+  header("Location: http://".$_SERVER['HTTP_HOST']."/foronliner/listnonregister.php");
   exit;
 }
 if (isset($_REQUEST[session_name()])) session_start();

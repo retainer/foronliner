@@ -15,7 +15,7 @@ foreach ( $_POST as $key => $val )
  {
 	$currentID=substr($key, 3); // рабочий идентификатор
 	$link = mysql_connect(DBHOST, DBUSER, DBPASSWD)  or die("Ошибка соединения: " . mysql_error());
-    mysql_select_db("upload_files") or die("невозможно выполнить выборку из БД");
+    mysql_select_db("$DBNAME") or die("невозможно выполнить выборку из БД");
 	$query = "SELECT * FROM upload_files WHERE user_id=$uID AND file_id=$currentID"; 
     $result = mysql_query($query) or die("БД- ошибка запроса: " . mysql_error());
 	$row = mysql_fetch_assoc($result);
@@ -53,5 +53,5 @@ $CurDel="del$currentID";
 }
 } 
 // вернёмся к списку
-header("Location: http://".$_SERVER['HTTP_HOST']."/list.php");
+header("Location: http://".$_SERVER['HTTP_HOST']."/foronliner/list.php");
 ?>

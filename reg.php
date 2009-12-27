@@ -69,7 +69,7 @@ $browser_user=$_SERVER['HTTP_USER_AGENT'];
     if ($row = mysql_fetch_assoc($result))
 	{
 		if (!mkdir ("$uploads_dir".$row['user_id'])) {print "директория $uploads_dir".$row['user_id']." не создана. Проверьте  права доступа и настройки вашего сервера"; exit;}
-		header("Location: http://".$_SERVER['HTTP_HOST']."/list.php");
+		header("Location: http://".$_SERVER['HTTP_HOST']."/foronliner/list.php");
 	}
 	}
 
