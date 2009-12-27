@@ -1,8 +1,8 @@
 <?
 require_once "settings.php";
-// создадим всё необходимое для работы тестового задания onliner.by
-$link = mysql_connect(DBHOST, DBUSER, DBPASSWD)  or die("Ошибка соединения: " . mysql_error());
-$query[0]="CREATE DATABASE $DBNAME DEFAULT CHARACTER SET cp1251 COLLATE cp1251_general_ci;";
+// СЃРѕР·РґР°РґРёРј РІСЃС‘ РЅРµРѕР±С…РѕРґРёРјРѕРµ РґР»СЏ СЂР°Р±РѕС‚С‹ С‚РµСЃС‚РѕРІРѕРіРѕ Р·Р°РґР°РЅРёСЏ onliner.by
+$link = mysql_connect(DBHOST, DBUSER, DBPASSWD)  or die("РћС€РёР±РєР° СЃРѕРµРґРёРЅРµРЅРёСЏ: " . mysql_error());
+// $query[0]="CREATE DATABASE $DBNAME DEFAULT CHARACTER SET cp1251 COLLATE cp1251_general_ci;";
 $query[1]="USE $DBNAME;";
 $query[2]="CREATE TABLE `comments` ( `id` int(11) NOT NULL auto_increment,
   `file_id` int(11) NOT NULL,
@@ -12,7 +12,7 @@ $query[2]="CREATE TABLE `comments` ( `id` int(11) NOT NULL auto_increment,
   `browser` text NOT NULL,
   `name` text NOT NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=cp1251 AUTO_INCREMENT=1; ";
+) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 AUTO_INCREMENT=1; ";
 
 $query[3]="CREATE TABLE `upload_files` (
   `file_id` int(11) NOT NULL auto_increment,
@@ -32,27 +32,27 @@ $query[3]="CREATE TABLE `upload_files` (
   FULLTEXT KEY `filepath` (`filename`),
   FULLTEXT KEY `IP` (`IP`),
   FULLTEXT KEY `browser` (`browser`)
-) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=cp1251 AUTO_INCREMENT=1 ;";
+) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;";
 
 $query[4]="CREATE TABLE `users` (
   `user` text,
-  `email` text character set utf8 collate utf8_estonian_ci,
+  `email` text,
   `password` text,
   `user_id` int(11) NOT NULL auto_increment,
   PRIMARY KEY  (`user_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;";
 
-for ($i=0; $i<sizeof($query); $i++)
+for ($i=1; $i<sizeof($query); $i++)
 {
-$result = mysql_query($query[$i]) or die(print "БД- ошибка запроса: " . mysql_error()); 
+$result = mysql_query($query[$i]) or die(print "Р‘Р”- РѕС€РёР±РєР° Р·Р°РїСЂРѕСЃР°: " . mysql_error()); 
 }
-if (!mkdir ("$uploads_dir")) {print "директория $uploads_dir не создана. Проверьте  права доступа и настройки вашего сервера"; exit;}
+// if (!mkdir ("$uploads_dir")) {print "РґРёСЂРµРєС‚РѕСЂРёСЏ $uploads_dir РЅРµ СЃРѕР·РґР°РЅР°. РџСЂРѕРІРµСЂСЊС‚Рµ  РїСЂР°РІР° РґРѕСЃС‚СѓРїР° Рё РЅР°СЃС‚СЂРѕР№РєРё РІР°С€РµРіРѕ СЃРµСЂРІРµСЂР°"; exit;}
 
 
-print "1.Удалите install.php из рабочей директории<br>
-Регистрация нового пользователя: <a href='registration.html'>registration.html</a><br>
-Перейти к списку файлов: <a href='listnonregister.php'>listnonregister.php</a><br>
-Перейти к управлению личными файлами <a href='list.php'>list.php</a>
+print "1.РЈРґР°Р»РёС‚Рµ install.php РёР· СЂР°Р±РѕС‡РµР№ РґРёСЂРµРєС‚РѕСЂРёРё<br>
+Р РµРіРёСЃС‚СЂР°С†РёСЏ РЅРѕРІРѕРіРѕ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ: <a href='registration.html'>registration.html</a><br>
+РџРµСЂРµР№С‚Рё Рє СЃРїРёСЃРєСѓ С„Р°Р№Р»РѕРІ: <a href='listnonregister.php'>listnonregister.php</a><br>
+РџРµСЂРµР№С‚Рё Рє СѓРїСЂР°РІР»РµРЅРёСЋ Р»РёС‡РЅС‹РјРё С„Р°Р№Р»Р°РјРё <a href='list.php'>list.php</a>
 		";
   
 ?>
