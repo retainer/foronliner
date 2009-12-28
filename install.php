@@ -42,7 +42,7 @@ $query[4]="CREATE TABLE `users` (
   PRIMARY KEY  (`user_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;";
 
-for ($i=1; $i<sizeof($query); $i++)
+for ($i=1; $i<=sizeof($query); $i++)
 {
 $result = mysql_query($query[$i]) or die(print "БД- ошибка запроса: " . mysql_error()); 
 }
